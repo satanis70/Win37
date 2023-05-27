@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Win37</string>
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <string name="title_activity_quiz">QuizActivity</string>
+</resources>

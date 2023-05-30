@@ -57,4 +57,14 @@ object MainScreen{
             )
         }
     }
+
+    @Composable
+    fun loadBackgroundQuiz(context: Context){
+        Image(
+            painter = rememberAsyncImagePainter("http://49.12.202.175/win37/tennisback.jpg"),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds
+        )
+    }
 }

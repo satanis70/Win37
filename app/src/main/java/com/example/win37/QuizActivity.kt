@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,9 +19,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,6 +47,8 @@ import retrofit2.create
 class QuizActivity : ComponentActivity() {
 
     private val arrayListQuestion = ArrayList<QuestionModel>()
+    private var score = 0
+    private var position = 0
 
     @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,32 +59,173 @@ class QuizActivity : ComponentActivity() {
                 setContent {
                     MainScreen.loadBackgroundQuiz(context = LocalContext.current)
                     Log.i("arraylistQuestion", arrayListQuestion.toString())
-                    Text(
-                        text = arrayListQuestion[0].questions[0].question,
-                        modifier = Modifier.padding(vertical = 38.dp),
-                        textAlign = TextAlign.Center,
-                        color = Color.Black,
-                        fontSize = 28.sp
-                    )
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ){
-                        val context = LocalContext.current
-                        Button(
-                            onClick = {},
-                            shape = RoundedCornerShape(23.dp),
-                            colors = ButtonDefaults.buttonColors(contentColor = Color.Red, containerColor = Color.White)
-                        ) {
-                            Text(
-                                text = "Start quiz",
-                                fontSize = 20.sp,
-                                modifier = Modifier.padding(horizontal = 30.dp, vertical = 6.dp)
-                            )
+                    ShowData()
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun ShowData() {
+        val currentButtonColor1 = remember {
+            mutableStateOf(Color.White)
+        }
+        val currentButtonColor2 = remember {
+            mutableStateOf(Color.White)
+        }
+        val currentButtonColor3 = remember {
+            mutableStateOf(Color.White)
+        }
+        val currentButtonColor4 = remember {
+            mutableStateOf(Color.White)
+        }
+        val clickable = remember {
+            mutableStateOf(false)
+        }
+        Text(
+            text = arrayListQuestion[position].questions[position].question,
+            modifier = Modifier.padding(vertical = 38.dp),
+            textAlign = TextAlign.Center,
+            color = Color.Black,
+            fontSize = 28.sp
+        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            val context = LocalContext.current
+            Button(
+                onClick = {
+                    if (clickable.value == false) {
+                        if (arrayListQuestion[position].questions[position].answer1.trueorfalse == "true") {
+                            score += 1
+                            currentButtonColor1.value = Color.Green
+                            clickable.value = true
+                        } else {
+                            currentButtonColor1.value = Color.Red
+                            clickable.value = true
                         }
                     }
-                }
+                },
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth(),
+                shape = RoundedCornerShape(23.dp),
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = Color.Black,
+                    containerColor = currentButtonColor1.value
+                )
+            ) {
+                Text(
+                    text = arrayListQuestion[position].questions[position].answer1.name,
+                    fontSize = 20.sp,
+                    modifier = Modifier.padding(horizontal = 30.dp, vertical = 6.dp)
+                )
+            }
+            Button(
+                onClick = {
+                    if (clickable.value == false) {
+                        if (arrayListQuestion[position].questions[position].answer2.trueorfalse == "true") {
+                            score += 1
+                            currentButtonColor2.value = Color.Green
+                            clickable.value = true
+                        } else {
+                            currentButtonColor2.value = Color.Red
+                            clickable.value = true
+                        }
+                    }
+                },
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth()
+                    .layoutId("button2"),
+                shape = RoundedCornerShape(23.dp),
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = Color.Black,
+                    containerColor = currentButtonColor2.value
+                )
+            ) {
+                Text(
+                    text = arrayListQuestion[position].questions[position].answer2.name,
+                    fontSize = 20.sp,
+                    modifier = Modifier.padding(horizontal = 30.dp, vertical = 6.dp)
+                )
+            }
+            Button(
+                onClick = {
+                    if (clickable.value == false) {
+                        if (arrayListQuestion[position].questions[position].answer3.trueorfalse == "true") {
+                            score += 1
+                            currentButtonColor3.value = Color.Green
+                            clickable.value = true
+                        } else {
+                            currentButtonColor3.value = Color.Red
+                            clickable.value = true
+                        }
+                    }
+                },
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth(),
+                shape = RoundedCornerShape(23.dp),
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = Color.Black,
+                    containerColor = currentButtonColor3.value
+                )
+            ) {
+                Text(
+                    text = arrayListQuestion[position].questions[position].answer3.name,
+                    fontSize = 20.sp,
+                    modifier = Modifier.padding(horizontal = 30.dp, vertical = 6.dp)
+                )
+            }
+            Button(
+                onClick = {
+                    if (clickable.value == false) {
+                        if (arrayListQuestion[position].questions[position].answer4.trueorfalse == "true") {
+                            score += 1
+                            currentButtonColor4.value = Color.Green
+                            clickable.value = true
+                        } else {
+                            currentButtonColor4.value = Color.Red
+                            clickable.value = true
+                        }
+                    }
+                },
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth(),
+                shape = RoundedCornerShape(23.dp),
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = Color.Black,
+                    containerColor = currentButtonColor4.value
+                )
+            ) {
+                Text(
+                    text = arrayListQuestion[position].questions[position].answer4.name,
+                    fontSize = 20.sp,
+                    modifier = Modifier.padding(horizontal = 30.dp, vertical = 6.dp)
+                )
+            }
+            Button(
+                onClick = {},
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+                    .padding(top = 58.dp),
+                shape = RoundedCornerShape(23.dp),
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = Color.Red,
+                    containerColor = Color.White
+                )
+            ) {
+                Text(
+                    text = context.resources.getString(R.string.next_button),
+                    fontSize = 20.sp,
+                    modifier = Modifier.padding(horizontal = 30.dp, vertical = 6.dp)
+                )
             }
         }
     }

@@ -59,7 +59,7 @@ object MainScreen{
     }
 
     @Composable
-    fun loadBackgroundQuiz(context: Context){
+    fun loadBackgroundQuiz(){
         Image(
             painter = rememberAsyncImagePainter("http://49.12.202.175/win37/tennisback.jpg"),
             contentDescription = null,

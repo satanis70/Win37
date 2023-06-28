@@ -3,4 +3,10 @@
     <string name="title_activity_splash_screen">SplashScreenActivity</string>
     <string name="title_activity_quiz">QuizActivity</string>
     <string name="next_button">Next</string>
+    <string name="title_activity_result">ResultActivity</string>
+    <string name="again">Again</string>
+    <string name="result">Result: </string>
+    <string name="splash_screen">splash_screen</string>
+    <string name="main_screen">main_screen</string>
+    <string name="start_quiz">Start quiz</string>
 </resources>

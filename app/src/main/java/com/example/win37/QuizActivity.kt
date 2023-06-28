@@ -57,8 +57,7 @@ class QuizActivity : ComponentActivity() {
             getQuestions()
             launch(Dispatchers.Main) {
                 setContent {
-                    MainScreen.loadBackgroundQuiz(context = LocalContext.current)
-                    Log.i("arraylistQuestion", arrayListQuestion.toString())
+                    MainScreen.loadBackgroundQuiz()
                     ShowData()
                 }
             }
@@ -67,6 +66,7 @@ class QuizActivity : ComponentActivity() {
 
     @Composable
     private fun ShowData() {
+
         val currentButtonColor1 = remember {
             mutableStateOf(Color.White)
         }
@@ -82,8 +82,17 @@ class QuizActivity : ComponentActivity() {
         val clickable = remember {
             mutableStateOf(false)
         }
+        val showQuestion = remember {
+            mutableStateOf(false)
+        }
+        if (clickable.value==true){
+            if (showQuestion.value==true){
+                ShowData()
+                showQuestion.value = false
+            }
+        }
         Text(
-            text = arrayListQuestion[position].questions[position].question,
+            text = arrayListQuestion[0].questions[position].question,
             modifier = Modifier.padding(vertical = 38.dp),
             textAlign = TextAlign.Center,
             color = Color.Black,
@@ -99,7 +108,7 @@ class QuizActivity : ComponentActivity() {
             Button(
                 onClick = {
                     if (clickable.value == false) {
-                        if (arrayListQuestion[position].questions[position].answer1.trueorfalse == "true") {
+                        if (arrayListQuestion[0].questions[position].answer1.trueorfalse == "true") {
                             score += 1
                             currentButtonColor1.value = Color.Green
                             clickable.value = true
@@ -119,7 +128,7 @@ class QuizActivity : ComponentActivity() {
                 )
             ) {
                 Text(
-                    text = arrayListQuestion[position].questions[position].answer1.name,
+                    text = arrayListQuestion[0].questions[position].answer1.name,
                     fontSize = 20.sp,
                     modifier = Modifier.padding(horizontal = 30.dp, vertical = 6.dp)
                 )
@@ -127,7 +136,7 @@ class QuizActivity : ComponentActivity() {
             Button(
                 onClick = {
                     if (clickable.value == false) {
-                        if (arrayListQuestion[position].questions[position].answer2.trueorfalse == "true") {
+                        if (arrayListQuestion[0].questions[position].answer2.trueorfalse == "true") {
                             score += 1
                             currentButtonColor2.value = Color.Green
                             clickable.value = true
@@ -148,7 +157,7 @@ class QuizActivity : ComponentActivity() {
                 )
             ) {
                 Text(
-                    text = arrayListQuestion[position].questions[position].answer2.name,
+                    text = arrayListQuestion[0].questions[position].answer2.name,
                     fontSize = 20.sp,
                     modifier = Modifier.padding(horizontal = 30.dp, vertical = 6.dp)
                 )
@@ -156,7 +165,7 @@ class QuizActivity : ComponentActivity() {
             Button(
                 onClick = {
                     if (clickable.value == false) {
-                        if (arrayListQuestion[position].questions[position].answer3.trueorfalse == "true") {
+                        if (arrayListQuestion[0].questions[position].answer3.trueorfalse == "true") {
                             score += 1
                             currentButtonColor3.value = Color.Green
                             clickable.value = true
@@ -176,7 +185,7 @@ class QuizActivity : ComponentActivity() {
                 )
             ) {
                 Text(
-                    text = arrayListQuestion[position].questions[position].answer3.name,
+                    text = arrayListQuestion[0].questions[position].answer3.name,
                     fontSize = 20.sp,
                     modifier = Modifier.padding(horizontal = 30.dp, vertical = 6.dp)
                 )
@@ -184,7 +193,7 @@ class QuizActivity : ComponentActivity() {
             Button(
                 onClick = {
                     if (clickable.value == false) {
-                        if (arrayListQuestion[position].questions[position].answer4.trueorfalse == "true") {
+                        if (arrayListQuestion[0].questions[position].answer4.trueorfalse == "true") {
                             score += 1
                             currentButtonColor4.value = Color.Green
                             clickable.value = true
@@ -204,13 +213,31 @@ class QuizActivity : ComponentActivity() {
                 )
             ) {
                 Text(
-                    text = arrayListQuestion[position].questions[position].answer4.name,
+                    text = arrayListQuestion[0].questions[position].answer4.name,
                     fontSize = 20.sp,
                     modifier = Modifier.padding(horizontal = 30.dp, vertical = 6.dp)
                 )
             }
             Button(
-                onClick = {},
+                onClick = {
+                    if (arrayListQuestion[0].questions.size==position+1){
+                        val intent = Intent(this@QuizActivity, ResultActivity::class.java)
+                        intent.putExtra("result", score)
+                        intent.putExtra("all", arrayListQuestion[0].questions.size)
+                        startActivity(intent)
+                        finish()
+                    } else{
+                        if (clickable.value==true){
+                            showQuestion.value = true
+                            position++
+                            currentButtonColor1.value = Color.White
+                            currentButtonColor2.value = Color.White
+                            currentButtonColor3.value = Color.White
+                            currentButtonColor4.value = Color.White
+                            clickable.value = false
+                        }
+                    }
+                },
                 modifier = Modifier
                     .padding(16.dp)
                     .fillMaxWidth()

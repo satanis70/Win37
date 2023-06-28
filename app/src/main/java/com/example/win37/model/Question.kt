@@ -1,5 +1,8 @@
 package com.example.win37.model
 
+import androidx.annotation.Keep
+
+@Keep
 data class Question(
     val answer1: Answer1,
     val answer2: Answer1,

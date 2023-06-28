@@ -3,8 +3,10 @@ package com.example.win37
 import android.content.Intent
 import android.graphics.fonts.FontStyle
 import android.os.Bundle
+import android.util.Log
 import android.window.SplashScreen
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -43,6 +45,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import kotlinx.coroutines.delay
+import okhttp3.Route
 
 
 class MainActivity : ComponentActivity() {
@@ -58,12 +61,12 @@ class MainActivity : ComponentActivity() {
         val navController = rememberNavController()
         NavHost(
             navController = navController,
-            startDestination = "splash_screen"
+            startDestination = resources.getString(R.string.splash_screen)
         ) {
-            composable("splash_screen") {
+            composable(resources.getString(R.string.splash_screen)) {
                 SplashScreen(navController = navController)
             }
-            composable("main_screen") {
+            composable(resources.getString(R.string.main_screen)) {
                 MainScreen()
             }
         }
@@ -73,7 +76,9 @@ class MainActivity : ComponentActivity() {
     fun SplashScreen(navController: NavController) {
         LaunchedEffect(key1 = true) {
             delay(3000L)
-            navController.navigate("main_screen")
+            navController.navigate(resources.getString(R.string.main_screen)) {
+                popUpTo(0)
+            }
         }
         Image(
             painter = rememberAsyncImagePainter("http://49.12.202.175/win37/tennisback.jpg"),
@@ -109,14 +114,12 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun MainScreen() {
-
         MainScreen.LoadBackground(this)
-
         Box(
             modifier = Modifier
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
-        ){
+        ) {
             val context = LocalContext.current
             Button(
                 onClick = {
@@ -124,10 +127,13 @@ class MainActivity : ComponentActivity() {
                     context.startActivity(intent)
                 },
                 shape = RoundedCornerShape(23.dp),
-                colors = ButtonDefaults.buttonColors(contentColor = Color.Red, containerColor = Color.White)
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = Color.Red,
+                    containerColor = Color.White
+                )
             ) {
                 Text(
-                    text = "Start quiz",
+                    text = resources.getString(R.string.start_quiz),
                     fontSize = 20.sp,
                     modifier = Modifier.padding(horizontal = 30.dp, vertical = 6.dp)
                 )

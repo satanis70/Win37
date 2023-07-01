@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 }
 
 android {
@@ -77,4 +78,5 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:2.5.0"
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1'
+    implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
 }

@@ -35,6 +35,7 @@ import com.example.win37.model.Question
 import com.example.win37.model.QuestionModel
 import com.example.win37.services.QuizApi
 import com.example.win37.ui.theme.Win37Theme
+import com.onesignal.OneSignal
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -53,6 +54,9 @@ class QuizActivity : ComponentActivity() {
     @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE)
+        OneSignal.initWithContext(this)
+        OneSignal.setAppId("714b9f14-381d-4fc4-a93c-28d480557381")
         GlobalScope.launch(Dispatchers.IO) {
             getQuestions()
             launch(Dispatchers.Main) {
